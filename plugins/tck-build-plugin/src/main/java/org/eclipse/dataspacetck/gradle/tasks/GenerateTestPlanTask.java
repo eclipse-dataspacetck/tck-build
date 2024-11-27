@@ -14,6 +14,7 @@
 
 package org.eclipse.dataspacetck.gradle.tasks;
 
+import org.eclipse.dataspacetck.annotation.processors.TestPlanGenerator;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.SourceSetContainer;
@@ -41,6 +42,7 @@ import java.util.List;
  * </pre>
  */
 public class GenerateTestPlanTask extends JavaCompile {
+    public static final String NAME = "genTestPlan";
     private static final List<String> ALLOWED_FORMATS = List.of("png", "svg");
     private String imageFormat = "svg";
     private boolean forceConversion = true;
@@ -57,11 +59,18 @@ public class GenerateTestPlanTask extends JavaCompile {
         getOptions().setAnnotationProcessorPath(getProject().getConfigurations().getByName("annotationProcessor"));
     }
 
+    /**
+     * Description of the task, used for {@code ./gradlew help --task genTestPlan}
+     */
     @Override
     public @NotNull String getDescription() {
         return "Generates a test plan by processing test annotations. Use the properties of this task to control image rendering.";
     }
 
+    /**
+     * The image format that diagrams are converted into. This property is ignored when {@link GenerateTestPlanTask#setForceConversion(boolean)} is false.
+     * Possible values are "png" and "svg"
+     */
     @Input
     public String getImageFormat() {
         return imageFormat;
@@ -76,6 +85,9 @@ public class GenerateTestPlanTask extends JavaCompile {
         }
     }
 
+    /**
+     * Whether all diagrams (mermaid, plantuml) should be converted to - and embedded as - image, or directly as Mermaid/PlantUML code
+     */
     @Input
     public boolean getForceConversion() {
         return forceConversion;
@@ -85,6 +97,9 @@ public class GenerateTestPlanTask extends JavaCompile {
         this.forceConversion = forceConversion;
     }
 
+    /**
+     * Optionally sets the output directory for the generated document.
+     */
     @Input
     public String getOutputDirectory() {
         return outputDirectory;
@@ -94,6 +109,9 @@ public class GenerateTestPlanTask extends JavaCompile {
         this.outputDirectory = outputDirectory;
     }
 
+    /**
+     * Task output: where the test plan document is put
+     */
     @OutputDirectory
     public File getOutputDir() {
         return new File(outputDirectory);
@@ -108,7 +126,7 @@ public class GenerateTestPlanTask extends JavaCompile {
         }
         // add compiler arguments lazily, when all properties are sure to have been assigned.
         getOptions().getCompilerArgs().addAll(
-                List.of("-processor", "org.eclipse.dataspacetck.annotation.processors.TestPlanGenerator",
+                List.of("-processor", TestPlanGenerator.class.getName(),
                         "-Acvf.outputDir=" + outputDirectory, //set output path where testplan.md is stored
                         "-Acvf.conversion.force=" + forceConversion, // force pre-rendering of mermaid/plantuml diagrams as images (as opposed to: direct embed)
                         "-Acvf.conversion.format=" + imageFormat, // image format for pre-rendering

@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":annotation-processors:test-plan-generator"))
     implementation(gradleApi())
 }
 
