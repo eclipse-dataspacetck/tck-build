@@ -25,8 +25,14 @@ public class TckGeneratorPlugin implements org.gradle.api.Plugin<Project> {
         target.getTasks().register(GenerateTestPlanTask.NAME, GenerateTestPlanTask.class).configure(generateTestPlanTask -> {
             generateTestPlanTask.setGroup("documentation");
             // normally one would use getOrDefault, but the wildcard map prevents that
-            generateTestPlanTask.setImageFormat(ofNullable(target.getProperties().get("cvf.conversion.format")).map(Object::toString).orElse(("svg")));
-            generateTestPlanTask.setForceConversion(ofNullable(target.getProperties().get("cvf.conversion.force")).map(Object::toString).map(Boolean::parseBoolean).orElse(true));
+            generateTestPlanTask.setImageFormat(ofNullable(target.getProperties().get("cvf.conversion.format"))
+                    .map(Object::toString)
+                    .orElse(("svg")));
+
+            generateTestPlanTask.setForceConversion(ofNullable(target.getProperties().get("cvf.conversion.force"))
+                    .map(Object::toString)
+                    .map(Boolean::parseBoolean)
+                    .orElse(true));
             // generateTestPlanTask.setOutputDirectory("/path/to/directory");
         });
     }
