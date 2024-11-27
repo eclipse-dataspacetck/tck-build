@@ -82,9 +82,11 @@ allprojects{
 subprojects {
     publishing {
         publications {
-            create<MavenPublication>(project.name) {
-                artifactId = project.name
-                from(components["java"])
+            if(project.subprojects.isEmpty()) {
+                create<MavenPublication>(project.name) {
+                    artifactId = project.name
+                    from(components["java"])
+                }
             }
         }
     }
