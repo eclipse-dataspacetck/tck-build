@@ -1,0 +1,20 @@
+[metadata]
+format.version = "1.1"
+
+[versions]
+junit = "1.10.3"
+jupiter = "5.10.3"
+
+[libraries]
+
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
+junit-platform-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit" }
+
+[plugins]
+nexuspublishing = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
+# needed for the "dockerize" task
+docker = { id = "com.bmuschko.docker-remote-api", version = "9.4.0" }
+# needed to build a fat JAR
+shadow = { id = "com.gradleup.shadow", version = "8.3.5" }
+
+gradle-publish = { id = "com.gradle.plugin-publish", version = "1.2.1" }
