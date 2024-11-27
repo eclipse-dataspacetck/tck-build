@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    api(project(":annotation-processors:test-plan-generator"))
     implementation(gradleApi())
+    implementation(libs.tck.common.testplan.gen)
 }
 
 gradlePlugin {

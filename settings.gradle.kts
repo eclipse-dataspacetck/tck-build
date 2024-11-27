@@ -37,5 +37,4 @@ dependencyResolutionManagement {
 }
 
 include(":plugins:tck-build-plugin")
-include(":annotation-processors:test-plan-generator")
 
