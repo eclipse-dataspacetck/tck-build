@@ -43,10 +43,9 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
             var dockerfile = extension.getDockerfilePath().convention(dockerFilePathDefault).get();
 
             if (Files.exists(Path.of(dockerfile))) {
-                project.getLogger().lifecycle("Adding dockerize task to " + project.getName());
                 var copyLegalDocs = createCopyTask(project);
                 var dockerTask = createDockerizeTask(project, dockerfile, extension);
-                dockerTask.mustRunAfter(copyLegalDocs);
+                dockerTask.dependsOn(copyLegalDocs);
             }
         });
 
@@ -72,27 +71,22 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
             }
 
             // set build args
-            if (extension.getJarFilePath().isPresent()) {
-                dbi.getBuildArgs().put("JAR", extension.getJarFilePath().get());
-            } else {
-                dbi.getBuildArgs().put("JAR", "build/libs/" + project.getName() + ".jar");
-            }
+            dbi.getBuildArgs().put("JAR", extension.getJarFilePath().convention("libs/" + project.getName() + ".jar").get());
             dbi.getBuildArgs().put("ADDITIONAL_FILES", extension.getAdditionalFiles());
             dbi.getInputDir().set(project.getProjectDir());
-
         });
     }
 
     private static @NotNull Copy createCopyTask(Project project) {
         return project.getTasks().create("copyLegalDocs", Copy.class, copy -> {
-            copy.into(project.getLayout().getBuildDirectory().getAsFile().get());
-            copy.into("legal").from(
-                    project.getRootProject().getProjectDir().getPath() + "/SECURITY.md",
-                    project.getRootProject().getProjectDir().getPath() + "/NOTICE.md",
-                    project.getRootProject().getProjectDir().getPath() + "/DEPENDENCIES",
-                    project.getRootProject().getProjectDir().getPath() + "/LICENSE",
-                    project.getProjectDir().getPath() + "/notice.md"
-            );
+            copy.into(project.getLayout().getBuildDirectory().getAsFile().get() + "/legal")
+                    .from(
+                            project.getRootProject().getProjectDir().getPath() + "/SECURITY.md",
+                            project.getRootProject().getProjectDir().getPath() + "/NOTICE.md",
+                            project.getRootProject().getProjectDir().getPath() + "/DEPENDENCIES",
+                            project.getRootProject().getProjectDir().getPath() + "/LICENSE",
+                            project.getProjectDir().getPath() + "/notice.md"
+                    );
         });
     }
 }
