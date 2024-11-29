@@ -17,8 +17,13 @@ plugins {
     alias(libs.plugins.gradle.publish)
 }
 
+repositories {
+    gradlePluginPortal() // needed because some plugins are only published to the Plugin Portal
+}
+
 dependencies {
     implementation(gradleApi())
+    implementation(libs.plugin.docker.remoteapi)
 }
 
 gradlePlugin {
