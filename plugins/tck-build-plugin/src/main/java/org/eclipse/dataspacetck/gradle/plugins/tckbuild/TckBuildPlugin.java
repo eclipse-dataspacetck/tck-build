@@ -46,6 +46,7 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
                 var copyLegalDocs = createCopyTask(project);
                 var dockerTask = createDockerizeTask(project, dockerfile, extension);
                 dockerTask.dependsOn(copyLegalDocs);
+                dockerTask.dependsOn(project.getTasksByName("shadowJar", true));
             }
         });
 
