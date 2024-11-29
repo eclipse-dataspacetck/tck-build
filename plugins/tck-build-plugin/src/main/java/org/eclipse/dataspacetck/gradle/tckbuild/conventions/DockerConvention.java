@@ -12,10 +12,10 @@
  *
  */
 
-package org.eclipse.dataspacetck.gradle.conventions;
+package org.eclipse.dataspacetck.gradle.tckbuild.conventions;
 
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage;
-import org.eclipse.dataspacetck.gradle.plugins.tckbuild.DockerExtension;
+import org.eclipse.dataspacetck.gradle.tckbuild.extensions.DockerExtension;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.Copy;
 import org.jetbrains.annotations.NotNull;

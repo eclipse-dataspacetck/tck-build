@@ -12,7 +12,7 @@
  *
  */
 
-package org.eclipse.dataspacetck.gradle.plugins.tckbuild;
+package org.eclipse.dataspacetck.gradle.tckbuild.extensions;
 
 import org.gradle.api.provider.Property;
 

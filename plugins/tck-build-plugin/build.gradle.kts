@@ -37,7 +37,7 @@ gradlePlugin {
             displayName = "TCK Build Plugin"
             description = "Gradle Plugin to customize the TCK build"
             tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "build")
-            implementationClass = "org.eclipse.dataspacetck.gradle.plugins.tckbuild.TckBuildPlugin"
+            implementationClass = "org.eclipse.dataspacetck.gradle.tckbuild.plugins.TckBuildPlugin"
         }
     }
 }
