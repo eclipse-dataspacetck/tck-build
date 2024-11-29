@@ -19,6 +19,7 @@ plugins {
 
 dependencies {
     implementation(gradleApi())
+    implementation(libs.tck.common.testplan.gen)
 }
 
 gradlePlugin {
@@ -26,12 +27,12 @@ gradlePlugin {
     vcsUrl = "https://github.com/eclipse-dataspacetck"
 
     plugins {
-        create("tckBuild") {
-            id = "org.eclipse.dataspacetck.tck-build"
-            displayName = "TCK Build Plugin"
-            description = "Gradle Plugin to customize the TCK build"
-            tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "build")
-            implementationClass = "org.eclipse.dataspacetck.gradle.plugins.tckbuild.TckBuildPlugin"
+        create("tckGen") {
+            id = "org.eclipse.dataspacetck.tck-generator"
+            displayName = "TCK Test Plan Generator Plugin"
+            description = "Gradle Plugin to generate a test plan document in Markdown format"
+            tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "test", "testplan", "markdown")
+            implementationClass = "org.eclipse.dataspacetck.gradle.plugins.tckgen.TckGeneratorPlugin"
         }
     }
 }
