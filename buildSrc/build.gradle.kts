@@ -14,31 +14,47 @@
 
 plugins {
     `java-gradle-plugin`
-    alias(libs.plugins.gradle.publish)
 }
 
+group = "org.eclipse.dataspacetck.build"
+
 repositories {
-    gradlePluginPortal() // needed because some plugins are only published to the Plugin Portal
+    mavenCentral()
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+    }
+    gradlePluginPortal()
+    mavenLocal()
 }
 
 dependencies {
-    implementation(gradleApi())
+
+    implementation(libs.plugin.nexus.publish)
     implementation(libs.plugin.docker.remoteapi)
     implementation(libs.plugin.nexus.publish)
+
+    api(libs.tck.common.api)
 }
 
 gradlePlugin {
-    website = "https://projects.eclipse.org/projects/technology.dataspacetck"
-    vcsUrl = "https://github.com/eclipse-dataspacetck"
-
     plugins {
         create("tckBuild") {
-            id = "org.eclipse.dataspacetck.build.tck-build"
+            id = "org.eclipse.dataspacetck.tck-build"
             group = "org.eclipse.dataspacetck.build"
-            displayName = "TCK Build Plugin"
-            description = "Gradle Plugin to customize the TCK build"
-            tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "build")
             implementationClass = "org.eclipse.dataspacetck.gradle.tckbuild.plugins.TckBuildPlugin"
+        }
+    }
+}
+
+val generatedSourcesFolder = layout.buildDirectory.asFile.get().resolve("generated").resolve("sources")
+
+sourceSets {
+    main {
+        java {
+            srcDirs(
+                generatedSourcesFolder,
+                "../plugins/tck-build-plugin/src/main"
+            )
         }
     }
 }

@@ -12,7 +12,7 @@
 #
 
 ---
-name: Create Github Release
+name: Create CVF Release
 on:
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ env:
   TCK_VERSION: ${{ github.event.inputs.tck_version || inputs.tck_version }}
 
 jobs:
-  Create-Tag:
+  Prepare-Release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,7 +56,7 @@ jobs:
     # cannot use the workflow-level env yet as it does not yet exist, must take output from previous job
     if: ${{ !endsWith( needs.Prepare-Release.outputs.tck-version, '-SNAPSHOT') }}
     needs:
-      - Create-Tag
+      - Prepare-Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -75,12 +75,12 @@ jobs:
   Bump-Version:
     name: 'Update release version'
     # cannot use the workflow-level env yet as it does not yet exist, must take output from previous job
-    if: ${{ !endsWith( needs.Create-Tag.outputs.tck-version, '-SNAPSHOT') }}
-    needs: [ Create-Tag, Github-Release ]
+    if: ${{ !endsWith( needs.Prepare-Release.outputs.tck-version, '-SNAPSHOT') }}
+    needs: [ Prepare-Release, Github-Release ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/bump-version
         with:
           target_branch: "main"
-          base_version: ${{ needs.Create-Tag.outputs.tck-version }}
+          base_version: ${{ needs.Prepare-Release.outputs.tck-version }}

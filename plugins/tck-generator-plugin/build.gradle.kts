@@ -28,7 +28,8 @@ gradlePlugin {
 
     plugins {
         create("tckGen") {
-            id = "org.eclipse.dataspacetck.tck-generator"
+            id = "org.eclipse.dataspacetck.build.tck-generator"
+            group = "org.eclipse.dataspacetck.build"
             displayName = "TCK Test Plan Generator Plugin"
             description = "Gradle Plugin to generate a test plan document in Markdown format"
             tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "test", "testplan", "markdown")

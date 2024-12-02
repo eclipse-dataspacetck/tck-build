@@ -17,6 +17,7 @@ package org.eclipse.dataspacetck.gradle;
 import io.github.gradlenexus.publishplugin.NexusRepository;
 import io.github.gradlenexus.publishplugin.NexusRepositoryContainer;
 import org.gradle.api.Action;
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
 import java.net.URI;
 
@@ -26,6 +27,12 @@ public class Repositories {
     public static final String NEXUS_REPO_URL = "https://oss.sonatype.org/service/local/";
     private static final String OSSRH_PASSWORD = "OSSRH_PASSWORD";
     private static final String OSSRH_USER = "OSSRH_USERNAME";
+
+    public static Action<MavenArtifactRepository> mavenRepo(String repoUrl) {
+        return repo -> {
+            repo.setUrl(repoUrl);
+        };
+    }
 
     public static Action<? super NexusRepositoryContainer> sonatypeRepo() {
         return c -> c.sonatype(nexusRepo(NEXUS_REPO_URL, SNAPSHOT_REPO_URL));

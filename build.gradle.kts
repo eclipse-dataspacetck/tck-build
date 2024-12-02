@@ -1,3 +1,5 @@
+import org.eclipse.dataspacetck.gradle.tckbuild.extensions.TckBuildExtension
+
 /*
  *  Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  *
@@ -15,129 +17,40 @@
 plugins {
     checkstyle
     `maven-publish`
-}
-
-subprojects {
-
-//    afterEvaluate {
-//
-//        publishing {
-//            publications.forEach { i ->
-//                val mp = (i as MavenPublication)
-//                mp.pom {
-//                    name.set(project.name)
-//                    description.set("Compliance Verification Toolkit")
-//                    url.set("https://projects.eclipse.org/projects/technology.dataspacetck")
-//
-//                    licenses {
-//                        license {
-//                            name.set("The Apache License, Version 2.0")
-//                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-//                        }
-//                        developers {
-//                            developer {
-//                                id.set("JimMarino")
-//                                name.set("Jim Marino")
-//                                email.set("jmarino@metaformsystems.com")
-//                            }
-//                            developer {
-//                                id.set("PaulLatzelsperger")
-//                                name.set("Paul Latzelsperger")
-//                                email.set("paul.latzelsperger@beardyinc.com")
-//                            }
-//                            developer {
-//                                id.set("EnricoRisa")
-//                                name.set("Enrico Risa")
-//                                email.set("enrico.risa@gmail.com")
-//                            }
-//                        }
-//                        scm {
-//                            connection.set("scm:git:git@github.com:eclipse-dataspacetck/cvf.git")
-//                            url.set("https://github.com/eclipse-dataspacetck/cvf.git")
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
-
+    signing
+    `java-library`
+    `version-catalog`
+    alias(libs.plugins.gradle.publish) apply false
 }
 
 
 // needed for running the dash tool
 tasks.register("allDependencies", DependencyReportTask::class)
 
-// disallow any errors
-checkstyle {
-    maxErrors = 0
-}
 
 allprojects {
-    apply(plugin = "checkstyle")
-    apply(plugin = "maven-publish")
-    apply(plugin = "java-library")
+    apply(plugin = "org.eclipse.dataspacetck.tck-build")
 
-    configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    // for all gradle plugins:
+    pluginManager.withPlugin("java-gradle-plugin") {
+        apply(plugin = "com.gradle.plugin-publish")
     }
-}
 
-
-subprojects {
-
-    publishing {
-        publications {
-            if (project.subprojects.isEmpty()) {
-                create<MavenPublication>(project.name) {
-                    artifactId = project.name
-                    from(components["java"])
-                }
-            }
+    // configure POM
+    configure<TckBuildExtension> {
+        pom {
+            scmConnection = "https://github.com/eclipse-dataspacetck/dsp-tck.git"
+            scmUrl = "scm:git:git@github.com:eclipse-dataspacetck/dsp-tck.git"
+            groupId = "org.eclipse.dataspacetck.build"
+            projectName = project.name
+            description = "DSP Technology Compatibility Kit"
+            projectUrl = "https://projects.eclipse.org/projects/technology.dataspacetck"
         }
     }
 
-    afterEvaluate {
-        publishing {
-            publications.forEach { i ->
-                val mp = (i as MavenPublication)
-                mp.pom {
-                    name.set(project.name)
-                    description.set("Compliance Verification Toolkit")
-                    url.set("https://projects.eclipse.org/projects/technology.dataspacetck")
-
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                        developers {
-                            developer {
-                                id.set("JimMarino")
-                                name.set("Jim Marino")
-                                email.set("jmarino@metaformsystems.com")
-                            }
-                            developer {
-                                id.set("PaulLatzelsperger")
-                                name.set("Paul Latzelsperger")
-                                email.set("paul.latzelsperger@beardyinc.com")
-                            }
-                            developer {
-                                id.set("EnricoRisa")
-                                name.set("Enrico Risa")
-                                email.set("enrico.risa@gmail.com")
-                            }
-                        }
-                        scm {
-                            connection.set("scm:git:git@github.com:eclipse-dataspacetck/cvf.git")
-                            url.set("https://github.com/eclipse-dataspacetck/cvf.git")
-                        }
-                    }
-                }
-            }
-        }
+    // FIXME - workaround for https://github.com/gradle/gradle/issues/26091
+    val signingTasks = tasks.withType<Sign>()
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        mustRunAfter(signingTasks)
     }
 }
-
-
-

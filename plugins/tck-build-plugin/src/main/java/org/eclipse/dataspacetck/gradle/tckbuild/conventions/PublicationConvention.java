@@ -48,7 +48,7 @@ public class PublicationConvention {
                 pe.publications(publications -> publications.create(target.getName(), MavenPublication.class,
                         mavenPublication -> {
                             mavenPublication.from(target.getComponents().getByName("java"));
-                            mavenPublication.setGroupId(buildExt.getPom().getGroupId());
+                            mavenPublication.setGroupId(buildExt.getPom().getGroupId().get());
                             mavenPublication.suppressPomMetadataWarningsFor("testFixturesApiElements");
                             mavenPublication.suppressPomMetadataWarningsFor("testFixturesRuntimeElements");
                         }));
