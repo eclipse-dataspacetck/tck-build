@@ -73,16 +73,22 @@ checkstyle {
     maxErrors = 0
 }
 
-allprojects{
+allprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "maven-publish")
     apply(plugin = "java-library")
+
+    configure<JavaPluginExtension> {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
+
 subprojects {
+
     publishing {
         publications {
-            if(project.subprojects.isEmpty()) {
+            if (project.subprojects.isEmpty()) {
                 create<MavenPublication>(project.name) {
                     artifactId = project.name
                     from(components["java"])
