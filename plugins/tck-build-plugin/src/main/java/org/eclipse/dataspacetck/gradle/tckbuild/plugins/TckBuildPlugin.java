@@ -34,7 +34,7 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
 
     @Override
     public void apply(@NotNull Project target) {
-        target.getExtensions().create("edcBuild", TckBuildExtension.class, target.getObjects());
+        target.getExtensions().create("tckBuild", TckBuildExtension.class, target.getObjects());
 
         var ext = target.getExtensions().create("dockerExtension", DockerExtension.class);
 

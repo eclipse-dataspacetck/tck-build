@@ -12,7 +12,7 @@
 #
 
 ---
-name: Create CVF Release
+name: Create Github Release
 on:
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ env:
   TCK_VERSION: ${{ github.event.inputs.tck_version || inputs.tck_version }}
 
 jobs:
-  Prepare-Release:
+  Create-Tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,23 +49,14 @@ jobs:
               sha: context.sha
             })
 
-      # create merge commit main -> releases encoding the version in the commit message
-      - name: Merge main -> releases
-        uses: everlytic/branch-merge@1.1.5
-        with:
-          github_token: ${{ github.token }}
-          source_ref: ${{ github.ref }}
-          target_branch: 'releases'
-          commit_message_template: 'Merge commit for release of version v${{ env.TCK_VERSION }}'
-
     outputs:
-      cvf-version: ${{ env.TCK_VERSION }}
+      tck-version: ${{ env.TCK_VERSION }}
 
   Github-Release:
     # cannot use the workflow-level env yet as it does not yet exist, must take output from previous job
-    if: ${{ !endsWith( needs.Prepare-Release.outputs.cvf-version, '-SNAPSHOT') }}
+    if: ${{ !endsWith( needs.Prepare-Release.outputs.tck-version, '-SNAPSHOT') }}
     needs:
-      - Prepare-Release
+      - Create-Tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -84,12 +75,12 @@ jobs:
   Bump-Version:
     name: 'Update release version'
     # cannot use the workflow-level env yet as it does not yet exist, must take output from previous job
-    if: ${{ !endsWith( needs.Prepare-Release.outputs.cvf-version, '-SNAPSHOT') }}
-    needs: [ Prepare-Release, Github-Release ]
+    if: ${{ !endsWith( needs.Create-Tag.outputs.tck-version, '-SNAPSHOT') }}
+    needs: [ Create-Tag, Github-Release ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/bump-version
         with:
           target_branch: "main"
-          base_version: ${{ needs.Prepare-Release.outputs.cvf-version }}
+          base_version: ${{ needs.Create-Tag.outputs.tck-version }}

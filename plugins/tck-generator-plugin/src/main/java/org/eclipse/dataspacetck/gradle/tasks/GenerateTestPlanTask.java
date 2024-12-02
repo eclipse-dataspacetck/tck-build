@@ -134,5 +134,6 @@ public class GenerateTestPlanTask extends JavaCompile {
                 )
         );
         super.compile(inputs);
+        getLogger().lifecycle("Test plan document generated at {}{}testplan.md", getOutputDir(), File.separator);
     }
 }
