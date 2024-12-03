@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-build
+      - uses: eclipse-dataspacetck/tck-common/.github/actions/setup-build@main
 
       - name: Run Checkstyle
         run: ./gradlew checkstyleMain checkstyleTest
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-build
+      - uses: eclipse-dataspacetck/tck-common/.github/actions/setup-build@main
 
       - name: Run Javadoc
         run: ./gradlew javadoc
@@ -72,7 +72,7 @@ jobs:
       JACOCO: true
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-build
+      - uses: eclipse-dataspacetck/tck-common/.github/actions/setup-build@main
 
       - name: Run unit tests
         run: |
