@@ -17,14 +17,9 @@ plugins {
     alias(libs.plugins.gradle.publish)
 }
 
-repositories {
-    gradlePluginPortal() // needed because some plugins are only published to the Plugin Portal
-}
-
 dependencies {
     implementation(gradleApi())
-    implementation(libs.plugin.docker.remoteapi)
-    implementation(libs.plugin.nexus.publish)
+    implementation(libs.tck.common.testplan.gen)
 }
 
 gradlePlugin {
@@ -32,13 +27,13 @@ gradlePlugin {
     vcsUrl = "https://github.com/eclipse-dataspacetck"
 
     plugins {
-        create("tckBuild") {
-            id = "org.eclipse.dataspacetck.build.tck-build"
+        create("tckGen") {
+            id = "org.eclipse.dataspacetck.build.tck-generator"
             group = "org.eclipse.dataspacetck.build"
-            displayName = "TCK Build Plugin"
-            description = "Gradle Plugin to customize the TCK build"
-            tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "build")
-            implementationClass = "org.eclipse.dataspacetck.gradle.tckbuild.plugins.TckBuildPlugin"
+            displayName = "TCK Test Plan Generator Plugin"
+            description = "Gradle Plugin to generate a test plan document in Markdown format"
+            tags = listOf("tags", "dataspace", "dsp", "dcp", "tck", "plugins", "test", "testplan", "markdown")
+            implementationClass = "org.eclipse.dataspacetck.gradle.plugins.tckgen.TckGeneratorPlugin"
         }
     }
 }

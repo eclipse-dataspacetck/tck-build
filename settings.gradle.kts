@@ -37,4 +37,5 @@ dependencyResolutionManagement {
 }
 
 include(":plugins:tck-build-plugin")
+include(":plugins:tck-generator-plugin")
 

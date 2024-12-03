@@ -29,7 +29,7 @@ import static java.util.Optional.ofNullable;
  */
 public class TckGeneratorPlugin implements Plugin<Project> {
 
-    private static final String GENERATOR_GROUP_ARTIFACT = "org.eclipse.dataspacetck:test-plan-generator";
+    private static final String GENERATOR_GROUP_ARTIFACT = "org.eclipse.dataspacetck.common:test-plan-generator";
 
     @Override
     public void apply(@NotNull Project target) {
@@ -52,31 +52,11 @@ public class TckGeneratorPlugin implements Plugin<Project> {
                 });
     }
 
-    private @NotNull String getProcessorVersion(TckGeneratorExtension extension, Project project) {
-        var processorVersion = extension.getGeneratorVersion();
-
-        if (processorVersion.isPresent()) {
-            var version = processorVersion.get();
-            project.getLogger().debug("{}: use configured version from AutodocExtension (override) [{}]", project.getName(), version);
-            return version;
-        } else {
-            var version = project.getVersion().toString();
-            project.getLogger().info("No explicit configuration value for the annotationProcessor version was found. Project version {} will be used", version);
-            return version;
-        }
-    }
 
     /**
      * callback that is invoked before dependency resolution begins. We need this hook to add the "annotationProcessor" version
      */
-    private class DependencyInjector implements DependencyResolutionListener {
-        private final Project target;
-        private final TckGeneratorExtension extension;
-
-        private DependencyInjector(Project target, TckGeneratorExtension extension) {
-            this.target = target;
-            this.extension = extension;
-        }
+    private record DependencyInjector(Project target, TckGeneratorExtension extension) implements DependencyResolutionListener {
 
         @Override
         public void beforeResolve(@NotNull ResolvableDependencies dependencies) {
@@ -90,6 +70,20 @@ public class TckGeneratorPlugin implements Plugin<Project> {
         @Override
         public void afterResolve(@NotNull ResolvableDependencies dependencies) {
             //noop
+        }
+
+        private @NotNull String getProcessorVersion(TckGeneratorExtension extension, Project project) {
+            var processorVersion = extension.getGeneratorVersion();
+
+            if (processorVersion.isPresent()) {
+                var version = processorVersion.get();
+                project.getLogger().debug("{}: use configured version from AutodocExtension (override) [{}]", project.getName(), version);
+                return version;
+            } else {
+                var version = project.getVersion().toString();
+                project.getLogger().info("No explicit configuration value for the annotationProcessor version was found. Project version {} will be used", version);
+                return version;
+            }
         }
     }
 }

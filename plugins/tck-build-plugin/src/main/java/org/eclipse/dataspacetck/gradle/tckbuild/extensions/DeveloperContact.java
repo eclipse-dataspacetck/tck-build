@@ -12,19 +12,12 @@
  *
  */
 
-package org.eclipse.dataspacetck.gradle.plugins.tckbuild;
+package org.eclipse.dataspacetck.gradle.tckbuild.extensions;
 
+import javax.inject.Inject;
 
-import org.gradle.api.Project;
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Gradle plugin that customized the build for TCK projects
- */
-public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
-
-
-    @Override
-    public void apply(@NotNull Project target) {
+public record DeveloperContact(String id, String name, String email) {
+    @Inject
+    public DeveloperContact {
     }
 }

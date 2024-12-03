@@ -7,12 +7,12 @@ jupiter = "5.10.3"
 tck = "0.0.1-SNAPSHOT"
 
 [libraries]
-tck-common-api = {module = "org.eclipse.dataspacetck:core-api", version.ref = "tck"}
-tck-common-testplan-gen = {module = "org.eclipse.dataspacetck:test-plan-generator", version.ref = "tck"}
-
+tck-common-api = { module = "org.eclipse.dataspacetck.common:core-api", version.ref = "tck" }
+tck-common-testplan-gen = { module = "org.eclipse.dataspacetck.common:test-plan-generator", version.ref = "tck" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
 junit-platform-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit" }
-
+plugin-docker-remoteapi = { module = "com.bmuschko.docker-remote-api:com.bmuschko.docker-remote-api.gradle.plugin", version = "9.4.0" }
+plugin-nexus-publish = { module = "io.github.gradle-nexus:publish-plugin", version = "2.0.0" }
 
 [plugins]
 nexuspublishing = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
