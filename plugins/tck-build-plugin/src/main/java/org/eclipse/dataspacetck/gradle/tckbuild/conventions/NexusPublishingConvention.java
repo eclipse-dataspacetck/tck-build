@@ -15,19 +15,29 @@
 package org.eclipse.dataspacetck.gradle.tckbuild.conventions;
 
 import io.github.gradlenexus.publishplugin.NexusPublishExtension;
+import io.github.gradlenexus.publishplugin.NexusRepository;
+import org.eclipse.dataspacetck.gradle.Repositories;
 import org.gradle.api.Project;
 
-import static org.eclipse.dataspacetck.gradle.Repositories.sonatypeRepo;
+import java.net.URI;
 
 public class NexusPublishingConvention {
 
+    private static final String NEXUS_USERNAME_ENV_VAR = "CENTRAL_SONATYPE_TOKEN_USERNAME";
+    private static final String NEXUS_PASSWORD_ENV_VAR = "CENTRAL_SONATYPE_TOKEN_PASSWORD";
+
     public void apply(Project target) {
         if (target == target.getRootProject()) {
-
-
             target.getExtensions().configure(NexusPublishExtension.class, nexusPublishExtension -> {
-                nexusPublishExtension.repositories(sonatypeRepo());
+                nexusPublishExtension.repositories(c -> c.sonatype(this::configure));
             });
         }
+    }
+
+    private void configure(NexusRepository r) {
+        r.getNexusUrl().set(URI.create(Repositories.NEXUS_REPO_URL));
+        r.getSnapshotRepositoryUrl().set(URI.create(Repositories.SNAPSHOT_REPO_URL));
+        r.getUsername().set(System.getenv(NEXUS_USERNAME_ENV_VAR));
+        r.getPassword().set(System.getenv(NEXUS_PASSWORD_ENV_VAR));
     }
 }

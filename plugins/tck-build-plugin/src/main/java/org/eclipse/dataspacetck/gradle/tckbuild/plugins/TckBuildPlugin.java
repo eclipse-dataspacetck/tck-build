@@ -23,6 +23,7 @@ import org.eclipse.dataspacetck.gradle.tckbuild.conventions.JavaConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.NexusPublishingConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PomConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PublicationConvention;
+import org.eclipse.dataspacetck.gradle.tckbuild.conventions.RepositoriesConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.RootBuildScriptConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.SigningConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.extensions.DockerExtension;
@@ -55,11 +56,12 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
         target.getPlugins().apply(MavenPublishPlugin.class);
         target.getPlugins().apply(JavaPlugin.class);
 
-
+        // must run in the configuration phase
         new NexusPublishingConvention().apply(target);
 
         target.afterEvaluate(project -> {
             new RootBuildScriptConvention().apply(project);
+            new RepositoriesConvention().apply(project);
             new DockerConvention(ext).apply(project);
             new SigningConvention().apply(project);
             new PublicationConvention().apply(project);
