@@ -30,7 +30,7 @@ The project maintains the following source code repository:
 
 ## Third-party Content (Overarching All Modules)
 
-Please refer to the [DEPENDENCIES](https://eclipse-dataspacetck.github.io/tck-build/DEPENDENCIES) file for a detailed
+Please refer to the [DEPENDENCIES](DEPENDENCIES)
 report.
 
 ## Cryptography
