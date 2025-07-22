@@ -2,7 +2,7 @@
 format.version = "1.1"
 
 [versions]
-junit = "1.13.2"
+junit = "1.13.4"
 jupiter = "5.13.2"
 tck = "1.0.0-SNAPSHOT"
 
