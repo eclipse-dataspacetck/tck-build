@@ -11,13 +11,13 @@ tck-common-api = { module = "org.eclipse.dataspacetck.common:core-api", version.
 tck-common-testplan-gen = { module = "org.eclipse.dataspacetck.common:test-plan-generator", version.ref = "tck" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
 junit-platform-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit" }
-plugin-docker-remoteapi = { module = "com.bmuschko.docker-remote-api:com.bmuschko.docker-remote-api.gradle.plugin", version = "9.4.0" }
+plugin-docker-remoteapi = { module = "com.bmuschko.docker-remote-api:com.bmuschko.docker-remote-api.gradle.plugin", version = "10.0.0" }
 plugin-nexus-publish = { module = "io.github.gradle-nexus:publish-plugin", version = "2.0.0" }
 
 [plugins]
 nexuspublishing = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
 # needed for the "dockerize" task
-docker = { id = "com.bmuschko.docker-remote-api", version = "9.4.0" }
+docker = { id = "com.bmuschko.docker-remote-api", version = "10.0.0" }
 # needed to build a fat JAR
 shadow = { id = "com.gradleup.shadow", version = "8.3.8" }
 gradle-publish = { id = "com.gradle.plugin-publish", version = "1.3.0" }
