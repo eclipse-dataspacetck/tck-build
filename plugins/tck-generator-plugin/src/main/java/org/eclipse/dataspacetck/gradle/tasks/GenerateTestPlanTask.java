@@ -41,7 +41,7 @@ import java.util.List;
  * }
  * </pre>
  */
-public class GenerateTestPlanTask extends JavaCompile {
+public abstract class GenerateTestPlanTask extends JavaCompile {
     public static final String NAME = "genTestPlan";
     private static final List<String> ALLOWED_FORMATS = List.of("png", "svg");
     private String imageFormat = "svg";
