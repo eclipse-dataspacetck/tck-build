@@ -52,6 +52,7 @@ public abstract class PomExtension {
 
     public abstract Property<String> getScmUrl();
 
+    @Deprecated(since = "1.0.0")
     public abstract Property<String> getGroupId();
 
 }
