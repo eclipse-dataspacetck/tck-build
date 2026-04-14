@@ -41,7 +41,6 @@ allprojects {
         pom {
             scmConnection = "https://github.com/eclipse-dataspacetck/dsp-tck.git"
             scmUrl = "scm:git:git@github.com:eclipse-dataspacetck/dsp-tck.git"
-            groupId = "org.eclipse.dataspacetck.build"
             projectName = project.name
             description = "DSP Technology Compatibility Kit"
             projectUrl = "https://projects.eclipse.org/projects/technology.dataspacetck"
