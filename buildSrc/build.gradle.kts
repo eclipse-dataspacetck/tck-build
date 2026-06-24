@@ -32,8 +32,6 @@ dependencies {
     implementation(libs.plugin.nexus.publish)
     implementation(libs.plugin.docker.remoteapi)
     implementation(libs.plugin.nexus.publish)
-
-    api(libs.tck.common.api)
 }
 
 gradlePlugin {

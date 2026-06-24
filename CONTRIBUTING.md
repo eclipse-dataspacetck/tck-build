@@ -109,7 +109,7 @@ we would appreciate if your pull request applies to the following points:
 
 * If a new module has been added or a significant part of the code has been changed and you should 
   or want to be seen as the contact person for any further changes, please add appropriate 
-  information to the [CODEOWNERS](https://github.com/eclipse-dataspacetck/cvf/blob/main/CODEOWNERS) 
+  information to the [CODEOWNERS](.github/CODEOWNERS) 
   file. You can find instructions on how to do this at <https://help.github.com/articles/about-codeowners/>.
   Please note that this file does not represent all contributions to the code. What persons and organizations
   actually contributed to each file can be seen on GitHub and is documented in the license headers.
