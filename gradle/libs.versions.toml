@@ -5,7 +5,7 @@ format.version = "1.1"
 
 [libraries]
 plugin-docker-remoteapi = { module = "com.bmuschko.docker-remote-api:com.bmuschko.docker-remote-api.gradle.plugin", version = "10.0.0" }
-plugin-nexus-publish = { module = "io.github.gradle-nexus:publish-plugin", version = "2.0.0" }
+plugin-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version = "0.37.0" }
 
 [plugins]
 gradle-publish = { id = "com.gradle.plugin-publish", version = "2.1.0" }

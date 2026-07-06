@@ -29,9 +29,8 @@ repositories {
 
 dependencies {
 
-    implementation(libs.plugin.nexus.publish)
     implementation(libs.plugin.docker.remoteapi)
-    implementation(libs.plugin.nexus.publish)
+    implementation(libs.plugin.publish)
 }
 
 gradlePlugin {

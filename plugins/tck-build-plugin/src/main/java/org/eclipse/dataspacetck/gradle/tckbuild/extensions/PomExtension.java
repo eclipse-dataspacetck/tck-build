@@ -14,19 +14,24 @@
 
 package org.eclipse.dataspacetck.gradle.tckbuild.extensions;
 
+import org.gradle.api.Project;
 import org.gradle.api.provider.Property;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 public abstract class PomExtension {
+
     private List<DeveloperContact> developerContacts;
 
-    public PomExtension() {
+    @Inject
+    public PomExtension(Project project) {
         developerContacts = new ArrayList<>();
         developerContacts.add(new DeveloperContact("jimmarino", "Jim Marino", "jmarino@metaformsystems.com"));
         developerContacts.add(new DeveloperContact("paullatzelsperger", "Paul Latzelsperger", "paul.latzelsperger@beardyinc.com"));
         developerContacts.add(new DeveloperContact("wolf4ood", "Enrico Risa", "enrico.risa@gmail.com"));
+        developerContacts.add(new DeveloperContact("ndr-brt", "Andrea Bertagnolli", "andrea.bertagnolli@gmail.com"));
     }
 
     public abstract Property<String> getProjectName();
@@ -39,7 +44,6 @@ public abstract class PomExtension {
 
     public abstract Property<String> getLicenseUrl();
 
-
     public List<DeveloperContact> getDeveloper() {
         return developerContacts;
     }
@@ -51,8 +55,5 @@ public abstract class PomExtension {
     public abstract Property<String> getScmConnection();
 
     public abstract Property<String> getScmUrl();
-
-    @Deprecated(since = "1.0.0")
-    public abstract Property<String> getGroupId();
 
 }

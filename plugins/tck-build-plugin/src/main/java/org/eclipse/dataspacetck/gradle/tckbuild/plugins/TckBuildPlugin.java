@@ -16,11 +16,9 @@ package org.eclipse.dataspacetck.gradle.tckbuild.plugins;
 
 
 import com.bmuschko.gradle.docker.DockerRemoteApiPlugin;
-import io.github.gradlenexus.publishplugin.NexusPublishPlugin;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.DockerConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.JarConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.JavaConvention;
-import org.eclipse.dataspacetck.gradle.tckbuild.conventions.NexusPublishingConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PomConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PublicationConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.RepositoriesConvention;
@@ -47,17 +45,11 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
         target.getExtensions().create("tckBuild", TckBuildExtension.class, target.getObjects());
 
         target.getPlugins().apply(DockerRemoteApiPlugin.class);
-        if (target.getRootProject() == target) {
-            target.getPlugins().apply(NexusPublishPlugin.class);
-        }
 
         target.getPlugins().apply(JavaLibraryPlugin.class);
         target.getPlugins().apply(CheckstylePlugin.class);
         target.getPlugins().apply(MavenPublishPlugin.class);
         target.getPlugins().apply(JavaPlugin.class);
-
-        // must run in the configuration phase
-        new NexusPublishingConvention().apply(target);
 
         target.afterEvaluate(project -> {
             new RootBuildScriptConvention().apply(project);
