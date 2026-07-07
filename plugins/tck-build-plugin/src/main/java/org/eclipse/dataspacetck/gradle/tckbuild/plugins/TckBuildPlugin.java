@@ -23,7 +23,6 @@ import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PomConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.PublicationConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.RepositoriesConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.conventions.RootBuildScriptConvention;
-import org.eclipse.dataspacetck.gradle.tckbuild.conventions.SigningConvention;
 import org.eclipse.dataspacetck.gradle.tckbuild.extensions.DockerExtension;
 import org.eclipse.dataspacetck.gradle.tckbuild.extensions.TckBuildExtension;
 import org.gradle.api.Project;
@@ -55,7 +54,6 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
             new RootBuildScriptConvention().apply(project);
             new RepositoriesConvention().apply(project);
             new DockerConvention(ext).apply(project);
-            new SigningConvention().apply(project);
             new PublicationConvention().apply(project);
             new PomConvention().apply(project);
             new JavaConvention().apply(project);
