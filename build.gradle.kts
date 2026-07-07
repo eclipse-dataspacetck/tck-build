@@ -1,4 +1,5 @@
 import org.eclipse.dataspacetck.gradle.tckbuild.extensions.TckBuildExtension
+import kotlin.text.set
 
 /*
  *  Copyright (c) 2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
@@ -27,7 +28,6 @@ plugins {
 // needed for running the dash tool
 tasks.register("allDependencies", DependencyReportTask::class)
 
-
 allprojects {
     apply(plugin = "org.eclipse.dataspacetck.tck-build")
 
@@ -36,14 +36,10 @@ allprojects {
         apply(plugin = "com.gradle.plugin-publish")
     }
 
-    // configure POM
     configure<TckBuildExtension> {
         pom {
-            scmConnection = "https://github.com/eclipse-dataspacetck/dsp-tck.git"
-            scmUrl = "scm:git:git@github.com:eclipse-dataspacetck/dsp-tck.git"
-            projectName = project.name
-            description = "DSP Technology Compatibility Kit"
-            projectUrl = "https://projects.eclipse.org/projects/technology.dataspacetck"
+            scmUrl.set(providers.gradleProperty("scmUrl"))
+            scmConnection.set(providers.gradleProperty("scmConnection"))
         }
     }
 

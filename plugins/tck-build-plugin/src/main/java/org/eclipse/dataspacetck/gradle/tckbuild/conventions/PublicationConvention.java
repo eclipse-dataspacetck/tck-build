@@ -14,10 +14,11 @@
 
 package org.eclipse.dataspacetck.gradle.tckbuild.conventions;
 
+import com.vanniktech.maven.publish.DeploymentValidation;
+import com.vanniktech.maven.publish.MavenPublishBaseExtension;
+import com.vanniktech.maven.publish.MavenPublishPlugin;
 import org.eclipse.dataspacetck.gradle.tckbuild.extensions.TckBuildExtension;
 import org.gradle.api.Project;
-import org.gradle.api.publish.PublishingExtension;
-import org.gradle.api.publish.maven.MavenPublication;
 
 public class PublicationConvention {
     /**
@@ -33,7 +34,6 @@ public class PublicationConvention {
      * @param target The project to which the convention applies
      */
     public void apply(Project target) {
-        // do not publish the root project or modules without a build.gradle.kts
         if (target.getRootProject() == target || !target.file("build.gradle.kts").exists()) {
             return;
         }
@@ -42,17 +42,13 @@ public class PublicationConvention {
         var shouldPublish = buildExt.getPublish().getOrElse(DEFAULT_SHOULD_PUBLISH);
 
         if (shouldPublish) {
-            var pe = target.getExtensions().getByType(PublishingExtension.class);
+            target.getPlugins().apply(MavenPublishPlugin.class);
 
-            if (pe.getPublications().findByName(target.getName()) == null) {
-                pe.publications(publications -> publications.create(target.getName(), MavenPublication.class,
-                        mavenPublication -> {
-                            mavenPublication.from(target.getComponents().getByName("java"));
-                            mavenPublication.setGroupId(target.getGroup().toString());
-                            mavenPublication.suppressPomMetadataWarningsFor("testFixturesApiElements");
-                            mavenPublication.suppressPomMetadataWarningsFor("testFixturesRuntimeElements");
-                        }));
-            }
+            target.getExtensions().configure(MavenPublishBaseExtension.class, extension -> {
+                var automaticRelease = true;
+                extension.publishToMavenCentral(automaticRelease, DeploymentValidation.NONE);
+                extension.signAllPublications();
+            });
         }
     }
 }
