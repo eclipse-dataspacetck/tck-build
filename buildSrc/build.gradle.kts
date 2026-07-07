@@ -28,7 +28,6 @@ repositories {
 }
 
 dependencies {
-
     implementation(libs.plugin.docker.remoteapi)
     implementation(libs.plugin.publish)
 }

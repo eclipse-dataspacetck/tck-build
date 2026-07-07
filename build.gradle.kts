@@ -21,7 +21,7 @@ plugins {
     signing
     `java-library`
     `version-catalog`
-    alias(libs.plugins.gradle.publish) apply false
+    alias(libs.plugins.publish) apply false
 }
 
 
@@ -43,9 +43,4 @@ allprojects {
         }
     }
 
-    // FIXME - workaround for https://github.com/gradle/gradle/issues/26091
-    val signingTasks = tasks.withType<Sign>()
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        mustRunAfter(signingTasks)
-    }
 }

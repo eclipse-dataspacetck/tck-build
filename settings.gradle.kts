@@ -14,18 +14,5 @@
 
 rootProject.name = "tck-build"
 
-// this is needed to have access to snapshot builds of plugins
-pluginManagement {
-    repositories {
-        mavenLocal()
-        maven {
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
-
 include(":plugins:tck-build-plugin")
 

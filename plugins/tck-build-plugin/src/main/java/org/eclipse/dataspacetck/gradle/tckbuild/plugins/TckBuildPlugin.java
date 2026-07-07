@@ -31,6 +31,8 @@ import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.quality.CheckstylePlugin;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven;
+import org.gradle.plugins.signing.Sign;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -44,19 +46,24 @@ public class TckBuildPlugin implements org.gradle.api.Plugin<Project> {
         var ext = target.getExtensions().create("dockerExtension", DockerExtension.class);
         target.getExtensions().create("tckBuild", TckBuildExtension.class, target.getObjects());
 
-        target.getPlugins().apply(DockerRemoteApiPlugin.class);
-
         target.getPlugins().apply(JavaLibraryPlugin.class);
         target.getPlugins().apply(CheckstylePlugin.class);
         target.getPlugins().apply(MavenPublishPlugin.class);
         target.getPlugins().apply(JavaPlugin.class);
+        target.getPlugins().apply(DockerRemoteApiPlugin.class);
+
+        target.getTasks().withType(AbstractPublishToMaven.class).configureEach(task -> {
+            var signTasks = target.getTasks().withType(Sign.class);
+            task.mustRunAfter(signTasks);
+        });
+
+        new RootBuildScriptConvention().apply(target);
+        new RepositoriesConvention().apply(target);
 
         target.afterEvaluate(project -> {
-            new RootBuildScriptConvention().apply(project);
-            new RepositoriesConvention().apply(project);
             new DockerConvention(ext).apply(project);
+            new PublicationConvention().apply(target);
             new SigningConvention().apply(project);
-            new PublicationConvention().apply(project);
             new PomConvention().apply(project);
             new JavaConvention().apply(project);
             new JarConvention().apply(project);

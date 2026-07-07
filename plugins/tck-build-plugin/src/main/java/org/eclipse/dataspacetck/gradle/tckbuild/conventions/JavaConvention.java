@@ -45,10 +45,6 @@ public class JavaConvention {
             options.setIncremental(true);
         });
 
-
-        // needed for publishing to maven central
-        javaPluginExt.withJavadocJar();
-        javaPluginExt.withSourcesJar();
     }
 
 }

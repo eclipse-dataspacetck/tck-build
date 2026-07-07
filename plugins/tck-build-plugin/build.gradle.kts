@@ -14,7 +14,6 @@
 
 plugins {
     `java-gradle-plugin`
-    alias(libs.plugins.gradle.publish)
 }
 
 repositories {
@@ -22,7 +21,6 @@ repositories {
 }
 
 dependencies {
-    implementation(gradleApi())
     implementation(libs.plugin.docker.remoteapi)
     implementation(libs.plugin.publish)
 }
