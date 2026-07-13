@@ -24,8 +24,8 @@ public class RepositoriesConvention {
 
     public void apply(Project target) {
         var handler = target.getRepositories();
-        handler.maven(r -> r.setUrl(URI.create(SNAPSHOT_REPO_URL)));
         handler.mavenLocal();
+        handler.maven(r -> r.setUrl(URI.create(SNAPSHOT_REPO_URL)));
         handler.mavenCentral();
     }
 }
